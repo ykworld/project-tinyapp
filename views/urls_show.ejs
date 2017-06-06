@@ -5,10 +5,7 @@
 </head>
 <body>
     <!-- Add your EJS code here -->
-    <% for (var key in urls) {
-       if (key === shortURL) {
-    %>
-        <div><%=key%> : <%=urls[key]%></div>
-    <% }} %>
+    <h1>ShortURL: <%=shortURL%></h1>
+    <p><%=longUrl%></p>
 </body>
 </html>
