@@ -28,7 +28,12 @@ app.get("/urls/new", (req, res) => {
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
   urlDatabase[key] = req.body.longURL;
-  res.send("Ok");
+  res.redirect("/u/" + key);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  let longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
 });
 
 app.get("/urls/:id", (req, res) => {
