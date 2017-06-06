@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./partials/_header.ejs %>
+</head>
+<body>
+    <!-- Add your EJS code here -->
+    <% for (var key in urls) {
+       if (key === shortURL) {
+    %>
+        <div><%=key%> : <%=urls[key]%></div>
+    <% }} %>
+</body>
+</html>
