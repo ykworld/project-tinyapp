@@ -8,8 +8,7 @@
     <h1> Your Short URLs</h1>
     <% for (var key in urls) { %>
       <p>
-        <a href="http://localhost:8080/<%=key%>">http://localhost:8080/<%=key%></a>
-        (<%=urls[key]%>)
+        <%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a>
       </p>
     <% } %>
 </body>
