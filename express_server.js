@@ -46,3 +46,7 @@ app.get("/hello", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+function generateRandomString() {
+  return Math.random().toString(36).substring(2, 8);
+}
