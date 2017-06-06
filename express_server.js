@@ -27,13 +27,13 @@ app.get("/urls/new", (req, res) => {
 
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
-  urlDatabase[key] = req.body.longURL;
-  res.redirect("/urls/" + key);
+  urlDatabase[key] = req.body.longURL; // update database
+  res.redirect("/urls/" + key); // redirect to /urls/:id
 });
 
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
+  res.redirect(longURL); // redirect to long url (real url)
 });
 
 app.get("/urls/:id", (req, res) => {
@@ -53,6 +53,7 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+//Generate Random String (6 characters);
 function generateRandomString() {
   return Math.random().toString(36).substring(2, 8);
 }
