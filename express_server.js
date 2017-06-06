@@ -1,13 +1,16 @@
-var express = require("express");
-var app = express();
-var PORT = process.env.PORT || 8080;
-
-app.set("view engine", "ejs");
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+app.set("view engine", "ejs");
+
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get("/", (req, res) => {
   res.end("Hello!");
