@@ -11,9 +11,12 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <style>
-      #fmLogin {
+      #fmLogin, #fmLogout {
         float: right;
         vertical-align: middle;
+      }
+      #username {
+        float: right;
       }
     </style>
   </head>
@@ -23,9 +26,16 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">TinyApp</a>
       </div>
-      <form action="/login" id="fmLogin" method="POST" class="form-inline">
-        <input type="text" name="username">
-        <input type="submit" value="login">
-      </form>
+      <% if (username) { -%>
+        <div id="username"><%=username%></div>
+        <form action="/logout" id="fmLogout" method="POST" class="form-inline">
+          <input type="submit" value="Logout">
+        </form>
+      <% } else { -%>
+        <form action="/login" id="fmLogin" method="POST" class="form-inline">
+          <input type="text" name="username">
+          <input type="submit" value="Login">
+        </form>
+      <% } -%>
     </div>
-  </nav>
+    </nav>
