@@ -18,26 +18,23 @@ app.get("/", (req, res) => {
   res.end("Hello!");
 });
 
+// List
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
   res.render("urls_index", templateVars);
 });
 
+// New
 app.get("/urls/new", (req, res) => {
   let templateVars = {username: req.cookies["username"]};
   res.render("urls_new", templateVars);
 });
 
-// add Url
+// Create
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
-  urlDatabase[key] = req.body.longURL; // update database
+  urlDatabase[key] = req.body.longURL; // create url to database
   res.redirect("/urls"); // redirect to /urls
-});
-
-app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL); // redirect to long url (real url)
 });
 
 // Login
@@ -46,27 +43,33 @@ app.post("/login", (req, res) => {
   res.redirect('/urls');
 });
 
+// Logout
 app.post("/logout", (req, res) => {
   res.clearCookie('username');
   res.redirect('/urls');
 });
 
-// Read Url
+// Read
 app.get("/urls/:id", (req, res) => {
   let templateVars = { shortURL: req.params.id, longUrl: urlDatabase[req.params.id], username: req.cookies["username"] };
   res.render("urls_show", templateVars);
 });
 
-// Update Url
+// Update
 app.post("/urls/:id", (req, res) => {
   urlDatabase[req.params.id] = req.body.longURL;
   res.redirect("/urls");
 });
 
-// Delete Url
+// Delete
 app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  let longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL); // redirect to long url (real url)
 });
 
 app.get("/urls.json", (req, res) => {
