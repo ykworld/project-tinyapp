@@ -1,17 +1,30 @@
     <% include ./partials/_header %>
 
     <!-- Add your EJS code here -->
-    <h1> Your Short URLs</h1>
-    <% for (var key in urls) { %>
-      <div id="urls">
-       <form method="POST" action="/urls/<%=key%>/delete">
-          <%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a>
-          <a href="/urls/<%=key%>">edit</a>
-          <button type="submit" id="delete">
-             Delete
-          </button>
-        </form>
+    <div class="panel panel-default">
+      <div class="panel-heading">Your Short URLs</div>
+      <div class="panel-body">
+        <table class="table">
+          <tbody>
+          <% for (var key in urls) { %>
+            <tr>
+              <td><%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a></td>
+              <td>
+                <a href="/urls/<%=key%>" class="btn btn-info">
+                  Edit <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <form method="POST" action="/urls/<%=key%>/delete" id="fmDelete">
+                  <button type="submit" id="delete" class="btn btn-info">
+                     Delete <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+               </form>
+              </td>
+            </tr>
+          <% } %>
+          </tbody>
+        </table>
+        <a href = "/urls/new" class="btn btn-info">Add URL</a>
       </div>
-    <% } %>
+    </div>
 </body>
 </html>

@@ -28,10 +28,11 @@ app.get("/urls/new", (req, res) => {
   res.render("urls_new", templateVars);
 });
 
+// add Url
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
   urlDatabase[key] = req.body.longURL; // update database
-  res.redirect("/urls/" + key); // redirect to /urls/:id
+  res.redirect("/urls"); // redirect to /urls
 });
 
 app.get("/u/:shortURL", (req, res) => {

@@ -1,10 +1,15 @@
   <% include ./partials/_header %>
 
   <!-- Add your EJS code here -->
-  <h1>ShortURL: <%=shortURL%></h1>
-  <form action="/urls/<%=shortURL%>" method="POST">
-    <input id="longURL" type="text" name="longURL" placeholder="<%=longUrl%>" style="width: 300px">
-    <input type="submit" value="Update">
-  </form>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">ShortURL: <%=shortURL%></div>
+    <div class="panel-body">
+      <form action="/urls/<%=shortURL%>" method="POST" class="form-inline">
+        <input id="longURL" type="text" name="longURL" placeholder="<%=longUrl%>" style="width: 300px" class="form-control">
+        <input type="submit" value="Update" class="btn btn-info">
+      </form>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,9 +1,15 @@
     <% include ./partials/_header %>
-
-    <form action="/urls" method="POST" style="margin:150px;">
-      <label for="longURL">Enter a URL:</label>
-      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-      <input type="submit" value="Submit">
-    </form>
+    <div class="panel panel-default">
+      <div class="panel-heading">Add URLs</div>
+      <div class="panel-body">
+        <form action="/urls" method="POST" class="form-inline" id="fmNew">
+          <div class="form-group">
+            <label for="longURL">Enter a URL:</label>
+            <input id="longURL" class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px">
+            <input type="submit" value="Submit" class="btn btn-info">
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

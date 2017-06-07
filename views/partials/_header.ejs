@@ -11,30 +11,40 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <style>
-      #fmLogin, #fmLogout {
-        float: right;
-        vertical-align: middle;
+      body {
+        font-size:15px;
+        padding:40px;
       }
-      #username {
-        float: right;
+      #fmLogout label {
+        margin-right: 10px;
+      }
+      #fmDelete {
+        display: inline;
+      }
+
+      #fmNew input {
+        margin-left: 10px;
       }
     </style>
   </head>
-  <body style="font-size:20px; padding:50px;">
+  <body>
     <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">TinyApp</a>
+        <a class="navbar-brand" href="/urls">TinyApp</a>
       </div>
+
       <% if (username) { -%>
-        <div id="username"><%=username%></div>
-        <form action="/logout" id="fmLogout" method="POST" class="form-inline">
-          <input type="submit" value="Logout">
+        <form class="navbar-form navbar-right" action="/logout" id="fmLogout" method="POST" class="form-inline">
+          <div class="form-group">
+            <label for="logout">Hi! <%=username%></label>
+            <input type="submit" id="logout" value="Logout" class="btn btn-default">
+          </div>
         </form>
       <% } else { -%>
-        <form action="/login" id="fmLogin" method="POST" class="form-inline">
-          <input type="text" name="username">
-          <input type="submit" value="Login">
+        <form class="navbar-form navbar-right" action="/login" id="fmLogin" method="POST" class="form-inline">
+          <input type="text" name="username" class="form-control">
+          <input type="submit" value="Login" class="btn btn-default">
         </form>
       <% } -%>
     </div>
