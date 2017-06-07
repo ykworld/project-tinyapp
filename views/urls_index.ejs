@@ -7,9 +7,14 @@
     <!-- Add your EJS code here -->
     <h1> Your Short URLs</h1>
     <% for (var key in urls) { %>
-      <p>
-        <%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a>
-      </p>
+      <div id="urls">
+       <form method="POST" action="/urls/<%=key%>/delete">
+          <%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a>
+          <button type="submit" id="delete">
+             Delete
+          </button>
+        </form>
+      </div>
     <% } %>
 </body>
 </html>
