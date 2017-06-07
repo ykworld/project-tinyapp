@@ -10,6 +10,7 @@
       <div id="urls">
        <form method="POST" action="/urls/<%=key%>/delete">
           <%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a>
+          <a href="/urls/<%=key%>">edit</a>
           <button type="submit" id="delete">
              Delete
           </button>
