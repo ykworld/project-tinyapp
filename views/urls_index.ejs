@@ -9,7 +9,7 @@
             <tbody>
             <% for (var key in urls) { %>
               <tr>
-                <td><%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a></td>
+                <td><a href="/u/<%=key%>"><%=key%></a> → <%=urls[key]%></td>
                 <td>
                   <a href="/urls/<%=key%>" class="btn btn-info">
                     Edit <span class="glyphicon glyphicon-edit"></span>
