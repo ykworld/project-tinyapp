@@ -28,12 +28,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.end("Hello!");
+  res.redirect("/urls")
 });
 
 // List
 app.get("/urls", (req, res) => {
   let user = users[req.cookies["user_id"]];
+  console.log("user = " + user);
   let templateVars = { urls: urlDatabase, user: user };
   res.render("urls_index", templateVars);
 });
@@ -62,8 +63,23 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  // res.cookie('user_id', req.body.username);
-  // res.redirect('/urls');
+
+  // Check if user exist
+  for (userId in users) {
+    if(users[userId].email === email) {
+      if (users[userId].password === password) {
+        res.cookie('user_id', userId);
+        res.redirect('/urls');
+        return;
+      } else {
+        res.status(403).send('Password not found');
+        return;
+      }
+    } else {
+      res.status(403).send('Email not found');
+      return;
+    }
+  }
 });
 
 // Logout
