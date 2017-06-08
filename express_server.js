@@ -44,11 +44,12 @@ app.get("/urls", (req, res) => {
 // New
 app.get("/urls/new", (req, res) => {
   // if user who is not logined in, redirect to login page
-  if (!users[req.cookies["user_id"]]) {
+  let userId = req.cookies["user_id"];
+  if (!users[userId]) {
     res.redirect('/login');
     return;
   }
-  let templateVars = {user: req.cookies["user_id"]};
+  let templateVars = {user: userId};
   res.render("urls_new", templateVars);
 });
 
@@ -103,12 +104,24 @@ app.get("/urls/:id", (req, res) => {
 
 // Update
 app.post("/urls/:id", (req, res) => {
+  let userId = req.cookies["user_id"];
+  if (!users[userId]) {
+    res.status(400).send('Only the owner (creator) of the URL can edit the link.');
+    return;
+  }
+
   urlDatabase[req.params.id] = req.body.longURL;
   res.redirect("/urls");
 });
 
 // Delete
 app.post("/urls/:id/delete", (req, res) => {
+  let userId = req.cookies["user_id"];
+  if (!users[userId]) {
+    res.status(400).send('Only the owner (creator) of the URL can delete the link.');
+    return;
+  }
+
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
 });
