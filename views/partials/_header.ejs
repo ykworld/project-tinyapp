@@ -34,10 +34,10 @@
         <a class="navbar-brand" href="/urls">TinyApp</a>
       </div>
 
-      <% if (username) { -%>
+      <% if (user) { -%>
         <form class="navbar-form navbar-right" action="/logout" id="fmLogout" method="POST" class="form-inline">
           <div class="form-group">
-            <label for="logout">Hi! <%=username%></label>
+            <label for="logout">Hi! <%=user.id%></label>
             <input type="submit" id="logout" value="Logout" class="btn btn-default">
           </div>
         </form>

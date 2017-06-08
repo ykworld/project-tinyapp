@@ -33,7 +33,8 @@ app.get("/", (req, res) => {
 
 // List
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  let user = users[req.cookies["user_id"]];
+  let templateVars = { urls: urlDatabase, user: user };
   res.render("urls_index", templateVars);
 });
 
@@ -82,7 +83,8 @@ app.post("/urls/:id/delete", (req, res) => {
 
 // Registration page
 app.get("/register", (req, res) => {
-  let templateVars = {username: req.cookies["username"]};
+  let user = users[req.cookies["user_id"]];
+  let templateVars = {user: user};
   res.render("register", templateVars);
 });
 
@@ -97,7 +99,6 @@ app.post("/register", (req, res) => {
     return;
   }
 
-  console.log("#######");
   //create new user
   users[userId] = {id: userId, email: email, password: password};
   res.cookie('user_id', userId);
