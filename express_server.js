@@ -192,6 +192,7 @@ app.get("/u/:shortURL", (req, res) => {
 
   if (!longURL) {
     res.status(403).send('URL not found');
+    return;
   }
   res.redirect(longURL); // redirect to long url (real url)
 });
@@ -212,7 +213,6 @@ app.listen(PORT, () => {
 function isExistShortUrl(userId, sUrl) {
   for (shortUrl in urlDatabase[userId]) {
     if (shortUrl === sUrl) {
-      console.log("#######");
       return true;
     }
   }
