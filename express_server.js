@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -83,20 +84,19 @@ app.post("/login", (req, res) => {
   let password = req.body.password;
 
   // Check if user exist
-  for (userId in users) {
-    if(users[userId].email === email) {
-      if (users[userId].password === password) {
-        res.cookie('user_id', userId);
-        res.redirect('/urls');
-        return;
-      } else {
-        res.status(403).send('Password not found');
-        return;
-      }
+  let userId = chkEmailExist(email);
+  if(userId) {
+    if (bcrypt.compareSync(password, users[userId].password)) {
+      res.cookie('user_id', userId);
+      res.redirect('/urls');
+      return;
     } else {
-      res.status(403).send('Email not found');
+      res.status(403).send('Password not found');
       return;
     }
+  } else {
+    res.status(403).send('Email not found');
+    return;
   }
 });
 
@@ -165,8 +165,10 @@ app.post("/register", (req, res) => {
     return;
   }
 
+  let hashed_password = bcrypt.hashSync(password, 10);
   //create new user
-  users[userId] = {id: userId, email: email, password: password};
+  users[userId] = {id: userId, email: email, password: hashed_password};
+  console.log(users);
   res.cookie('user_id', userId);
   res.redirect('/urls');
 });
@@ -199,6 +201,16 @@ app.get("/hello", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// return userId if email exist of return false
+function chkEmailExist(email) {
+  for (userId in users) {
+    if(users[userId].email === email) {
+      return userId;
+    }
+  }
+  return false;
+}
 
 // returns the subset of the URL database that belongs to the user with ID
 function urlsForUser(id) {
