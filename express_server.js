@@ -163,7 +163,19 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  let longURL = urlDatabase[req.params.shortURL];
+  let longURL = "";
+  for (userId in urlDatabase) {
+    for (shortUrl in urlDatabase[userId]) {
+      if (shortUrl === req.params.shortURL) {
+        longURL = urlDatabase[userId][shortUrl];
+        break;
+      }
+    }
+  }
+
+  if (!longURL) {
+    res.status(403).send('URL not found');
+  }
   res.redirect(longURL); // redirect to long url (real url)
 });
 
