@@ -35,9 +35,10 @@ app.get("/", (req, res) => {
 
 // List
 app.get("/urls", (req, res) => {
-  let user = users[req.cookies["user_id"]];
-  console.log("user = " + user);
-  let templateVars = { urls: urlDatabase, user: user };
+  let userId = req.cookies["user_id"];
+  let user = users[userId];
+  let urls = urlsForUser(userId);
+  let templateVars = { urls: urls, user: user };
   res.render("urls_index", templateVars);
 });
 
@@ -98,7 +99,18 @@ app.post("/logout", (req, res) => {
 
 // Read
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { shortURL: req.params.id, longUrl: urlDatabase[req.params.id], user: req.cookies["user_id"] };
+  let userId = req.cookies["user_id"];
+  let templateVars;
+  if (userId) {
+    let user = users[userId];
+    let urls = urlsForUser(userId);
+    let shortURL = req.params.id;
+    let longURL = urls[req.params.id];
+    templateVars = { shortURL: shortURL, longUrl: longURL, user: user };
+  } else {
+    templateVars = {user: null};
+  }
+
   res.render("urls_show", templateVars);
 });
 
@@ -166,6 +178,11 @@ app.get("/hello", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// returns the subset of the URL database that belongs to the user with ID
+function urlsForUser(id) {
+  return urlDatabase[id];
+}
 
 //Generate Random String (6 characters);
 function generateRandomString() {

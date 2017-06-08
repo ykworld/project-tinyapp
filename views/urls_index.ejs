@@ -1,30 +1,37 @@
     <% include ./partials/_header %>
 
     <!-- Add your EJS code here -->
-    <div class="panel panel-default">
-      <div class="panel-heading">Your Short URLs</div>
-      <div class="panel-body">
-        <table class="table">
-          <tbody>
-          <% for (var key in urls) { %>
-            <tr>
-              <td><%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a></td>
-              <td>
-                <a href="/urls/<%=key%>" class="btn btn-info">
-                  Edit <span class="glyphicon glyphicon-edit"></span>
-                </a>
-                <form method="POST" action="/urls/<%=key%>/delete" id="fmDelete">
-                  <button type="submit" id="delete" class="btn btn-info">
-                     Delete <span class="glyphicon glyphicon-trash"></span>
-                  </button>
-               </form>
-              </td>
-            </tr>
-          <% } %>
-          </tbody>
-        </table>
-        <a href = "/urls/new" class="btn btn-info">Add URL</a>
+    <% if (user) { -%>
+      <div class="panel panel-default">
+        <div class="panel-heading">Your Short URLs</div>
+        <div class="panel-body">
+          <table class="table">
+            <tbody>
+            <% for (var key in urls) { %>
+              <tr>
+                <td><%=key%> → <a href="<%=urls[key]%>"><%=urls[key]%></a></td>
+                <td>
+                  <a href="/urls/<%=key%>" class="btn btn-info">
+                    Edit <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+                  <form method="POST" action="/urls/<%=key%>/delete" id="fmDelete">
+                    <button type="submit" id="delete" class="btn btn-info">
+                       Delete <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                 </form>
+                </td>
+              </tr>
+            <% } %>
+            </tbody>
+          </table>
+          <a href = "/urls/new" class="btn btn-info">Add URL</a>
+        </div>
       </div>
-    </div>
+    <% } else { -%>
+      <div class="alert alert-warning">
+        You need to log in!
+      </div>
+    <% } -%>
+
 </body>
 </html>
