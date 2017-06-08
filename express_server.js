@@ -75,7 +75,6 @@ app.post("/urls", (req, res) => {
 
   //add url to database
   urlDatabase[userId][key] = req.body.longURL;
-  console.log(urlDatabase);
   res.redirect("/urls"); // redirect to /urls
 });
 
@@ -111,7 +110,7 @@ app.post("/login", (req, res) => {
 // Logout
 app.post("/logout", (req, res) => {
   req.session = null
-  res.redirect('/urls');
+  res.redirect('/login');
 });
 
 // Read
@@ -121,7 +120,7 @@ app.get("/urls/:id", (req, res) => {
   if (userId) {
     let user = users[userId];
     let urls = urlsForUser(userId);
-    let shortURL = req.params.id;
+    let shortURL = isExistShortUrl(userId, req.params.id) ? req.params.id : "";
     let longURL = urls[req.params.id];
     templateVars = { shortURL: shortURL, longUrl: longURL, user: user };
   } else {
@@ -139,7 +138,7 @@ app.post("/urls/:id", (req, res) => {
     return;
   }
 
-  urlDatabase[req.params.id] = req.body.longURL;
+  urlDatabase[userId][req.params.id] = req.body.longURL;
   res.redirect("/urls");
 });
 
@@ -151,7 +150,7 @@ app.post("/urls/:id/delete", (req, res) => {
     return;
   }
 
-  delete urlDatabase[req.params.id];
+  delete urlDatabase[userId][req.params.id];
   res.redirect("/urls");
 });
 
@@ -208,6 +207,17 @@ app.get("/hello", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// check if shorturl exisit
+function isExistShortUrl(userId, sUrl) {
+  for (shortUrl in urlDatabase[userId]) {
+    if (shortUrl === sUrl) {
+      console.log("#######");
+      return true;
+    }
+  }
+  return false;
+}
 
 // return userId if email exist of return false
 function chkEmailExist(email) {

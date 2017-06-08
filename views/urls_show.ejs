@@ -2,15 +2,26 @@
 
   <!-- Add your EJS code here -->
   <% if (user) { -%>
-    <div class="panel panel-default">
-      <div class="panel-heading">ShortURL: <%=shortURL%></div>
-      <div class="panel-body">
-        <form action="/urls/<%=shortURL%>" method="POST" class="form-inline">
-          <input id="longURL" type="text" name="longURL" placeholder="<%=longUrl%>" style="width: 300px" class="form-control">
-          <input type="submit" value="Update" class="btn btn-info">
-        </form>
+    <% if (shortURL && longUrl) { -%>
+      <div class="panel panel-default">
+        <div class="panel-heading">ShortURL: <%=shortURL%></div>
+        <div class="panel-body">
+          <form action="/urls/<%=shortURL%>" method="POST" class="form-inline">
+            <input id="longURL" type="text" name="longURL" placeholder="<%=longUrl%>" style="width: 300px" class="form-control">
+            <input type="submit" value="Update" class="btn btn-info">
+          </form>
+        </div>
       </div>
-    </div>
+    <% } else if(shortURL && !longUrl) { -%>
+      <div class="alert alert-warning">
+        Not own the URL
+      </div>
+    <% } else if(!shortURL){ -%>
+      <div class="alert alert-warning">
+        URL not exist!
+      </div>
+    <% }%>
+
   <% } else { -%>
     <div class="alert alert-warning">
       You need to log in!
