@@ -86,6 +86,18 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
+// Registration Handler
+app.post("/register", (req, res) => {
+  let userId = generateRandomString(); //getNewUserID
+  let email = req.body.email;
+  let password = req.body.password;
+
+  //create new user
+  users[userId] = {id: userId, email: email, password: password};
+  res.cookie('user_id', userId);
+  res.redirect('/urls');
+});
+
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL); // redirect to long url (real url)
