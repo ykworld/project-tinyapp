@@ -57,7 +57,16 @@ app.get("/urls/new", (req, res) => {
 // Create
 app.post("/urls", (req, res) => {
   let key = generateRandomString();
-  urlDatabase[key] = req.body.longURL; // create url to database
+  let userId = req.cookies["user_id"];
+
+  // if userid not exist in database, add user id
+  if (!urlDatabase[userId]) {
+    urlDatabase[userId] = {};
+  }
+
+  //add url to database
+  urlDatabase[userId][key] = req.body.longURL;
+  console.log(urlDatabase);
   res.redirect("/urls"); // redirect to /urls
 });
 
