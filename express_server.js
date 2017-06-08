@@ -41,7 +41,7 @@ app.get("/urls", (req, res) => {
 
 // New
 app.get("/urls/new", (req, res) => {
-  let templateVars = {username: req.cookies["username"]};
+  let templateVars = {user: req.cookies["user_id"]};
   res.render("urls_new", templateVars);
 });
 
@@ -90,7 +90,7 @@ app.post("/logout", (req, res) => {
 
 // Read
 app.get("/urls/:id", (req, res) => {
-  let templateVars = { shortURL: req.params.id, longUrl: urlDatabase[req.params.id], username: req.cookies["username"] };
+  let templateVars = { shortURL: req.params.id, longUrl: urlDatabase[req.params.id], user: req.cookies["user_id"] };
   res.render("urls_show", templateVars);
 });
 
