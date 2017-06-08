@@ -67,6 +67,12 @@ app.post("/urls/:id/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+// Registration page
+app.get("/register", (req, res) => {
+  let templateVars = {username: req.cookies["username"]};
+  res.render("register", templateVars);
+});
+
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL); // redirect to long url (real url)
