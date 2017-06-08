@@ -92,6 +92,12 @@ app.post("/register", (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
 
+  if(!email || !password) { // check email and password are empty string
+    res.status(400).send('Email or Password not entered');
+    return;
+  }
+
+  console.log("#######");
   //create new user
   users[userId] = {id: userId, email: email, password: password};
   res.cookie('user_id', userId);
