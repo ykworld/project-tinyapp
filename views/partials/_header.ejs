@@ -29,24 +29,22 @@
   </head>
   <body>
     <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/urls">TinyApp</a>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/urls">TinyApp</a>
+        </div>
+        <% if (user) { -%>
+          <form class="navbar-form navbar-right" action="/logout" id="fmLogout" method="POST" class="form-inline">
+            <div class="form-group">
+              <label for="logout">Hi! <%=username%></label>
+              <input type="submit" id="logout" value="Logout" class="btn btn-default">
+            </div>
+          </form>
+        <% } else { -%>
+          <div class="navbar-form navbar-right">
+            <a href="/login" class="btn btn-default">Login</a>
+            <a href="/register" class="btn btn-default">Register</a>
+          </form>
+        <% } -%>
       </div>
-
-      <% if (user) { -%>
-        <form class="navbar-form navbar-right" action="/logout" id="fmLogout" method="POST" class="form-inline">
-          <div class="form-group">
-            <label for="logout">Hi! <%=user.id%></label>
-            <input type="submit" id="logout" value="Logout" class="btn btn-default">
-          </div>
-        </form>
-      <% } else { -%>
-        <form class="navbar-form navbar-right" action="/login" id="fmLogin" method="POST" class="form-inline">
-          <input type="text" name="username" class="form-control">
-          <input type="submit" value="Login" class="btn btn-default">
-          <a href="/register" class="btn btn-default">Register</a>
-        </form>
-      <% } -%>
-    </div>
     </nav>

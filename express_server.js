@@ -51,10 +51,19 @@ app.post("/urls", (req, res) => {
   res.redirect("/urls"); // redirect to /urls
 });
 
+// Login page
+app.get("/login", (req, res) => {
+  let user = users[req.cookies["user_id"]];
+  let templateVars = {user: user};
+  res.render('login', templateVars);
+});
+
 // Login
 app.post("/login", (req, res) => {
-  res.cookie('username', req.body.username);
-  res.redirect('/urls');
+  let email = req.body.email;
+  let password = req.body.password;
+  // res.cookie('user_id', req.body.username);
+  // res.redirect('/urls');
 });
 
 // Logout
