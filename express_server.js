@@ -9,10 +9,16 @@ const PORT = process.env.PORT || 8080;
 
 const urlDatabase = {
   "userRandomID": {
-    "b2xVn2": "http://www.lighthouselabs.ca",
-    "9sm5xK": "http://www.google.com"
+    "b2xVn2": {
+      shortUrl: "b2xVn2",
+      longUrl: "http://www.lighthouselabs.ca",
+      createdDate: "2016-12-20",
+      count: 0,
+      uniqueCount: 8,
+      visitor: [{id: "x131sax", timestamp: "12311112344"}]
+    }
   }
-};
+}
 
 const users = {
   "userRandomID": {
@@ -44,7 +50,7 @@ app.get("/", (req, res) => {
   res.redirect("/urls")
 });
 
-// List
+// Main Page (List page)
 app.get("/urls", (req, res) => {
   let userId = req.session.user_id;
   let user = users[userId];
@@ -76,7 +82,15 @@ app.post("/urls", (req, res) => {
   }
 
   //add url to database
-  urlDatabase[userId][key] = req.body.longURL;
+  urlDatabase[userId][key] = {
+    shortUrl: key,
+    longUrl: req.body.longURL,
+    createdDate: new Date().toLocaleString(),
+    count: 0,
+    uniqueCount:0,
+    visitor: []
+  };
+
   res.redirect("/urls"); // redirect to /urls
 });
 
@@ -109,13 +123,13 @@ app.post("/login", (req, res) => {
   }
 });
 
-// Logout
+// Logout page
 app.post("/logout", (req, res) => {
   req.session = null
   res.redirect('/login');
 });
 
-// Read
+// Edit Page
 app.get("/urls/:id", (req, res) => {
   let userId = req.session.user_id;
   let templateVars;
@@ -123,8 +137,12 @@ app.get("/urls/:id", (req, res) => {
     let user = users[userId];
     let urls = urlsForUser(userId);
     let shortURL = isExistShortUrl(userId, req.params.id) ? req.params.id : "";
-    let longURL = urls[req.params.id];
-    templateVars = { shortURL: shortURL, longUrl: longURL, user: user };
+    let longURL = urls[req.params.id].longUrl;
+    let visitor = urls[req.params.id].visitor;
+    let count = urls[req.params.id].count;
+    let uniqueCount = urls[req.params.id].uniqueCount;
+    let createdDate = urls[req.params.id].createdDate;
+    templateVars = { shortURL: shortURL, longUrl: longURL, user: user, visitor: visitor, count: count, uniqueCount: uniqueCount, createdDate: createdDate};
   } else {
     templateVars = {user: null};
   }
@@ -132,7 +150,7 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
-// Update
+// URL Update (POST)
 app.put("/urls/:id", (req, res) => {
   let userId = req.session.user_id;
   if (!users[userId]) {
@@ -140,11 +158,11 @@ app.put("/urls/:id", (req, res) => {
     return;
   }
 
-  urlDatabase[userId][req.params.id] = req.body.longURL;
+  urlDatabase[userId][req.params.id].longUrl = req.body.longURL;
   res.redirect("/urls");
 });
 
-// Delete
+// Delete url
 app.delete("/urls/:id", (req, res) => {
   let userId = req.session.user_id;
   if (!users[userId]) {
@@ -186,7 +204,27 @@ app.get("/u/:shortURL", (req, res) => {
   for (userId in urlDatabase) {
     for (shortUrl in urlDatabase[userId]) {
       if (shortUrl === req.params.shortURL) {
-        longURL = urlDatabase[userId][shortUrl];
+        longURL = urlDatabase[userId][shortUrl].longUrl;
+
+        let visitor_id;
+        // Unique visitor check
+        if(!req.cookies["visitor_id"]) {
+          //Generate visitor_id
+          visitor_id = generateRandomString()
+          res.cookie("visitor_id", visitor_id);
+
+          urlDatabase[userId][shortUrl].uniqueCount = parseInt(urlDatabase[userId][shortUrl].uniqueCount) + 1;
+        } else {
+          visitor_id = req.cookies["visitor_id"];
+        }
+
+        // record visit
+        let timestamp = new Date().toLocaleString();
+        let visitData = {id: visitor_id, timestamp: timestamp };
+        urlDatabase[userId][shortUrl].visitor.push(visitData);
+
+        // visitor count increment
+        urlDatabase[userId][shortUrl].count = parseInt(urlDatabase[userId][shortUrl].count) + 1;
         break;
       }
     }

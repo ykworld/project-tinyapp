@@ -6,11 +6,33 @@
         <div class="panel-heading">Your Short URLs</div>
         <div class="panel-body">
           <table class="table">
+            <thead>
+              <th style="text-align: center">Short URL</th>
+              <th style="text-align: center">Long URL</th>
+              <th style="text-align: center">CreatedDate</th>
+              <th style="text-align: center">Count</th>
+              <th style="text-align: center">Unique Count</th>
+              <th></th>
+            </thead>
             <tbody>
             <% for (var key in urls) { %>
               <tr>
-                <td><a href="/u/<%=key%>"><%=key%></a> → <%=urls[key]%></td>
-                <td>
+                <td style="text-align: center">
+                  <a href="/u/<%=key%>"><%=key%></a>
+                </td>
+                <td style="text-align: center">
+                  <%=urls[key].longUrl%>
+                </td>
+                <td style="text-align: center">
+                  <%=urls[key].createdDate%>
+                </td>
+                <td style="text-align: center">
+                  <%=urls[key].count%>
+                </td>
+                <td style="text-align: center">
+                  <%=urls[key].uniqueCount%>
+                </td>
+                <td style="text-align: right">
                   <a href="/urls/<%=key%>" class="btn btn-info">
                     Edit <span class="glyphicon glyphicon-edit"></span>
                   </a>

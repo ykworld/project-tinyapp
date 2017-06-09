@@ -10,6 +10,52 @@
             <input id="longURL" type="text" name="longURL" placeholder="<%=longUrl%>" style="width: 300px" class="form-control">
             <input type="submit" value="Update" class="btn btn-info">
           </form>
+          <br/>
+          <div class="panel panel-default">
+            <div class="panel-heading">Info</div>
+            <table class="table table-bordered">
+              <thead>
+                <th style="text-align: center">Count</th>
+                <th style="text-align: center">Unique Count</th>
+                <th style="text-align: center">CreatedDate</th>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td style="text-align: center">
+                      <%=count%>
+                    </td>
+                    <td style="text-align: center">
+                      <%=uniqueCount%>
+                    </td>
+                     <td style="text-align: center">
+                      <%=createdDate%>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Track</div>
+            <table class="table table-bordered">
+              <thead>
+                <th style="text-align: center">Visitor ID</th>
+                <th style="text-align: center">Timestamp</th>
+              </thead>
+              <tbody>
+                <% for (idx in visitor) { -%>
+                  <tr>
+                    <td style="text-align: center">
+                      <%=visitor[idx].id%>
+                    </td>
+                    <td style="text-align: center">
+                      <%=visitor[idx].timestamp%>
+                    </td>
+                    <% } -%>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     <% } else if(shortURL && !longUrl) { -%>
