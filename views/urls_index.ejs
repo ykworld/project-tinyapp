@@ -14,7 +14,7 @@
                   <a href="/urls/<%=key%>" class="btn btn-info">
                     Edit <span class="glyphicon glyphicon-edit"></span>
                   </a>
-                  <form method="POST" action="/urls/<%=key%>/delete" id="fmDelete">
+                  <form method="POST" action="/urls/<%=key%>?_method=DELETE" id="fmDelete">
                     <button type="submit" id="delete" class="btn btn-info">
                        Delete <span class="glyphicon glyphicon-trash"></span>
                     </button>

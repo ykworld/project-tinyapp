@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
+const methodOverride = require('method-override');
 const bcrypt = require('bcrypt');
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -28,6 +29,7 @@ const users = {
 
 app.set("view engine", "ejs");
 
+app.use(methodOverride('_method'));
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2'],
@@ -131,7 +133,7 @@ app.get("/urls/:id", (req, res) => {
 });
 
 // Update
-app.post("/urls/:id", (req, res) => {
+app.put("/urls/:id", (req, res) => {
   let userId = req.session.user_id;
   if (!users[userId]) {
     res.status(400).send('Only the owner (creator) of the URL can edit the link.');
@@ -143,7 +145,7 @@ app.post("/urls/:id", (req, res) => {
 });
 
 // Delete
-app.post("/urls/:id/delete", (req, res) => {
+app.delete("/urls/:id", (req, res) => {
   let userId = req.session.user_id;
   if (!users[userId]) {
     res.status(400).send('Only the owner (creator) of the URL can delete the link.');
